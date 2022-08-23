@@ -2,7 +2,6 @@
 pragma solidity >=0.4.21;
 import "./erc20Interface.sol";
 contract ERC20Token is ERC20Interface {
-    uint256 constant private MAX_UINT256 = 2**256 - 1;
     mapping (address => uint256) public balances;
     mapping (address => mapping (address => uint256)) public allowed;
     string public name;                   // Descriptive name 
@@ -35,9 +34,7 @@ contract ERC20Token is ERC20Interface {
         require(balances[_from] >= _value && allowances >= _value,"Insufficient allowed funds for transfer source.");
         balances[_to] += _value;
         balances[_from] -= _value;
-        if (allowances < MAX_UINT256) {
-            allowed[_from][msg.sender] -= _value;
-        }
+        allowed[_from][msg.sender] -= _value;
         emit Transfer(_from, _to, _value); 
         return true;
     }
